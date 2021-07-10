@@ -5,7 +5,7 @@ import reducer from './reducer';
 let initialuserStore = {
     connected: false,
     ros: null,
-    ws_address: 'ws://54.91.44.26:9090',
+    ws_address: 'ws://13.115.59.232:9090',
     logs: [],
     loading: false,
     topic: null,
