@@ -6,3 +6,4 @@ export const BACKWARD = "backward";
 export const STOP = "stop";
 export const TURNLEFT = "turnLeft";
 export const TURNRIGHT = "turnRight";
+export const ERROR = "error";

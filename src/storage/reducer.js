@@ -4,34 +4,39 @@ import ROSLIB from 'roslib';
 export default function reducer(state, action) {
     switch (action.type) {
         case action_type.CONNECT: {
-            let ros = new ROSLIB.Ros({
-                url: action.payload.ws_address
-            });
-            ros.on('connection', () => {
-                state.logs.unshift((new Date()).toTimeString() + ' - Connected!')
-                state.connected = true
-                state.loading = false
-            });
-            ros.on('error', (error) => {
-                state.logs.unshift((new Date()).toTimeString() + ` - Error: ${error}`)
-            });
-            ros.on('close', () => {
-                state.logs.unshift((new Date()).toTimeString() + ' - Disconnected!')
-                state.connected = false
-                state.loading = false
-            });
-            return{
-                ...state,
-                loading: true,
-                ros: ros
-            }
-        }
-        case action_type.DISCONNECT: {
-            state.ros.close();
             return {
                 ...state,
-                ros: null
+                ros: action.payload.ros,
+                connected: true,
+                loading: false,
+                logs: [
+                    ...state.logs,
+                    ((new Date()).toTimeString() + ' - Connected!')
+                ]
+            }
+        }
+            
+        case action_type.DISCONNECT: {
+            return {
+                ...state,
+                connected: false,
+                loading: false,
+                ros: null,
+                logs: [
+                    ...state.logs,
+                    ((new Date()).toTimeString() + ' - Disconnected!')
+                ]
             };
+        }
+            
+        case action_type.ERROR: {
+            return {
+                ...state,
+                logs: [
+                    ...state.logs,
+                    ((new Date()).toTimeString() + ` - Error: ${JSON.stringify(action.payload.error)}`)
+                ]
+            }
         }
         
         case action_type.SET_TOPIC: {

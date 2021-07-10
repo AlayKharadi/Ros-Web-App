@@ -1,72 +1,136 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { userStore } from './storage/store';
 import * as action_type from "./storage/actiontype";
-import { useSelector } from 'react-redux';
+import ROSLIB from 'roslib';
+import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
 
 function App() {
 
-	const log = useSelector(state => state.logs);
-	const connected = useSelector(state => state.connected);
+	let logs = useSelector(state => state.logs);
+	let connected = useSelector(state => state.connected);
+	const [ws, setWS] = useState('');
 
-	// helper methods to connect to ROS
-	function connect() {
-		userStore.dispatch({
-			type: action_type.CONNECT,
-			payload: {
-				ws_address: 'ws://13.115.59.232:9090'
-			}
+	useEffect(() => {
+		// wss://i-0c6354da7096e9e8c.robotigniteacademy.com/a85a3c99-376f-42cd-a5e1-ca15e5f92ed7/rosbridge/
+	}, [ws]);
+
+	const connect = () => {
+		let ros = null;
+		ros = new ROSLIB.Ros({
+			url: ws
 		});
+
+		if (ros !== null) {
+			ros.on('connection', () => {
+				userStore.dispatch({
+					type: action_type.CONNECT,
+					payload: {
+						ros: ros
+					}
+				});
+			});
+			ros.on('error', (error) => {
+				userStore.dispatch({
+					type: action_type.ERROR,
+					payload: {
+						error: error
+					}
+				});
+			});
+			ros.on('close', () => {
+				userStore.dispatch({
+					type: action_type.DISCONNECT
+				});
+			});
+		}
 	}
 
-	function disconnect() {
-		userStore.dispatch({
-			type: action_type.DISCONNECT
-		});
+	const disconnect = () => {
+		let ros = userStore.getState().ros;
+		if (ros !== null) {
+			ros.close();
+		}
 	};
 
-	function forward() {
+	const forward = () => {
+		userStore.dispatch({
+			type: action_type.SET_TOPIC
+		});
 		userStore.dispatch({
 			type: action_type.FORWARD
 		});
+
+		let topic = userStore.getState().topic;
+		let message = userStore.getState().message;
+
+		if (topic !== null) {
+			topic.publish(message);
+		}
+	}
+
+	const backward = () => {
 		userStore.dispatch({
 			type: action_type.SET_TOPIC
 		});
-	}
-
-	function backward() {
 		userStore.dispatch({
 			type: action_type.BACKWARD
 		});
+
+		let topic = userStore.getState().topic;
+		let message = userStore.getState().message;
+
+		if (topic !== null) {
+			topic.publish(message);
+		}
+	}
+
+	const stop = () => {
 		userStore.dispatch({
 			type: action_type.SET_TOPIC
 		});
-	}
-
-	function stop() {
 		userStore.dispatch({
 			type: action_type.STOP
 		});
+
+		let topic = userStore.getState().topic;
+		let message = userStore.getState().message;
+
+		if (topic !== null) {
+			topic.publish(message);
+		}
+	}
+
+	const turnleft = () => {
 		userStore.dispatch({
 			type: action_type.SET_TOPIC
 		});
-	}
-
-	function turnleft() {
 		userStore.dispatch({
 			type: action_type.TURNLEFT
 		});
+
+		let topic = userStore.getState().topic;
+		let message = userStore.getState().message;
+
+		if (topic !== null) {
+			topic.publish(message);
+		}
+	}
+
+	const turnright = () => {
 		userStore.dispatch({
 			type: action_type.SET_TOPIC
 		});
-	}
-
-	function turnright() {
 		userStore.dispatch({
 			type: action_type.TURNRIGHT
 		});
-		userStore.dispatch({
-			type: action_type.SET_TOPIC
-		});
+
+		let topic = userStore.getState().topic;
+		let message = userStore.getState().message;
+
+		if (topic !== null) {
+			topic.publish(message);
+		}
 	}
 	return (
 		<div className="App">
@@ -100,7 +164,7 @@ function App() {
 					{ connected && <p className="text-success">Connected!</p> }
 					{ !connected && <p className="text-danger" >Not connected!</p>}
 					<label>Websocket server address</label>
-					<input type="text"/>
+					<input type="text" name='ws_address' value={ws} onChange={(e) => { setWS(e.target.value) }}/>
 					<br />
 
 					{!connected &&
@@ -117,7 +181,16 @@ function App() {
 				<div className="col-md-6" style={{maxHeight: '200px', overflow: 'auto'}}>
 					<h3>Log messages</h3>
 					<div>
-						<p>{ log }</p>
+						<ul>
+							{
+								(Array.isArray(logs)) &&
+								logs.map((log, i) => {
+									return (
+										<li key={i}>{log}</li>
+									);
+								})
+							}
+						</ul>
 					</div>
 				</div>
 			</div>
