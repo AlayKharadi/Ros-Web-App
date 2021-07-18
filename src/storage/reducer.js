@@ -7,24 +7,32 @@ export default function reducer(state, action) {
             return {
                 ...state,
                 ros: action.payload.ros,
+                ws_address: action.payload.ws,
                 connected: true,
                 loading: false,
                 logs: [
                     ...state.logs,
-                    ((new Date()).toTimeString() + ' - Connected!')
+                    {
+                        text: ((new Date()).toTimeString() + ' - Connected!'),
+                        type: 'connect'
+                    }
                 ]
-            }
+            };
         }
             
         case action_type.DISCONNECT: {
             return {
                 ...state,
+                ros: null,
+                ws_address: null,
                 connected: false,
                 loading: false,
-                ros: null,
                 logs: [
                     ...state.logs,
-                    ((new Date()).toTimeString() + ' - Disconnected!')
+                    {
+                        text: ((new Date()).toTimeString() + ' - Disconnected!'),
+                        type: 'disconnect'
+                    }
                 ]
             };
         }
@@ -34,9 +42,12 @@ export default function reducer(state, action) {
                 ...state,
                 logs: [
                     ...state.logs,
-                    ((new Date()).toTimeString() + ` - Error: ${JSON.stringify(action.payload.error)}`)
+                    {
+                        text: ((new Date()).toTimeString() + ` - Error: ${JSON.stringify(action.payload.error)}`),
+                        type: 'error'
+                    }
                 ]
-            }
+            };
         }
         
         case action_type.SET_TOPIC: {
@@ -47,7 +58,7 @@ export default function reducer(state, action) {
                     name: '/cmd_vel',
                     messageType: 'geometry_msgs/Twist'
                 })
-            }       
+            };
         }
         
         case action_type.FORWARD: {
@@ -59,7 +70,7 @@ export default function reducer(state, action) {
                 })
             };
         }
-            
+        
         case action_type.BACKWARD: {
             return {
                 ...state,
