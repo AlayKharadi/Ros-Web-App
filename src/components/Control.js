@@ -3,16 +3,22 @@ import * as action_type from "../storage/actiontype";
 import ROSLIB from 'roslib';
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { Button, Container, TextField } from '@material-ui/core';
-import { Jumbotron, Row } from 'react-bootstrap';
+import { Button, Container, FormControl, InputLabel, OutlinedInput, FormHelperText } from '@material-ui/core';
+import { Col, Jumbotron, Row } from 'react-bootstrap';
 
 const Control = () => {
     let connected = useSelector(state => state.connected);
     const [ws, setWS] = useState(userStore.getState().ws_address);
+    const [topicName, setTopicName] = useState('');
 
     useEffect(() => {
-        // wss://i-0c6354da7096e9e8c.robotigniteacademy.com/a85a3c99-376f-42cd-a5e1-ca15e5f92ed7/rosbridge/
+        // link for the web
     }, [ws]);
+
+    useEffect(() => {
+        // /cmd_vel 
+        // /turtle1/cmd_vel
+    }, [topicName]);
 
     const connect = () => {
         let ros = null;
@@ -55,7 +61,10 @@ const Control = () => {
 
     const forward = () => {
         userStore.dispatch({
-            type: action_type.SET_TOPIC
+            type: action_type.SET_TOPIC,
+            payload: {
+                topicName: topicName
+            }
         });
         userStore.dispatch({
             type: action_type.FORWARD
@@ -71,7 +80,10 @@ const Control = () => {
 
     const backward = () => {
         userStore.dispatch({
-            type: action_type.SET_TOPIC
+            type: action_type.SET_TOPIC,
+            payload: {
+                topicName: topicName
+            }
         });
         userStore.dispatch({
             type: action_type.BACKWARD
@@ -87,7 +99,10 @@ const Control = () => {
 
     const stop = () => {
         userStore.dispatch({
-            type: action_type.SET_TOPIC
+            type: action_type.SET_TOPIC,
+            payload: {
+                topicName: topicName
+            }
         });
         userStore.dispatch({
             type: action_type.STOP
@@ -103,7 +118,10 @@ const Control = () => {
 
     const turnleft = () => {
         userStore.dispatch({
-            type: action_type.SET_TOPIC
+            type: action_type.SET_TOPIC,
+            payload: {
+                topicName: topicName
+            }
         });
         userStore.dispatch({
             type: action_type.TURNLEFT
@@ -119,7 +137,10 @@ const Control = () => {
 
     const turnright = () => {
         userStore.dispatch({
-            type: action_type.SET_TOPIC
+            type: action_type.SET_TOPIC,
+            payload: {
+                topicName: topicName
+            }
         });
         userStore.dispatch({
             type: action_type.TURNRIGHT
@@ -136,35 +157,45 @@ const Control = () => {
     return (
 
         <Jumbotron style={{ marginBottom: '0px' }}>
-            <div className="row" style={{ maxHeight: '200px', marginRight: '0px' }}>
-                <div className="col-12">
-                    <Container>
-                        <h3>Connection Status:</h3>
-                        {
-                            connected
-                                ?
-                                <p className="text-success">
-                                    Connected
-                                </p>
-                                :
-                                <p className="text-danger" >
-                                    Not connected
-                                </p>
-                        }
-                    </Container>
-                    <hr />
+            <Row>
+                <Container>
+                    <h3>Connection Status:</h3>
+                    {
+                        connected
+                            ?
+                            <p className="text-success">
+                                Connected
+                            </p>
+                            :
+                            <p className="text-danger" >
+                                Not connected
+                            </p>
+                    }
+                </Container>
+                <hr />
 
-                    <Container>
-                        <Row>
-                            <TextField
-                                id="ws_address"
-                                label="Websocket server address"
-                                value={ ws === null ? '' : ws }
-                                onChange={(e) => setWS(e.target.value)}
-                                variant="outlined"
-                            />
-                        </Row>
-                        <Row>
+                <Container>
+                    <Row>
+                        <Col style={{ padding: '5px' }}>
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="ws_address" variant="outlined" error={false}>Websocket server address:</InputLabel>
+                                <OutlinedInput
+                                    id="ws_address"
+                                    type="text"
+                                    name="ws_address"
+                                    label="Websocket server address"
+                                    error={false}
+                                    aria-describedby="my-helper-text-user"
+                                    value={ws === null ? '' : ws}
+                                    onChange={(e) => setWS(e.target.value)}
+                                />
+                                <FormHelperText id="my-helper-text-ws_address" error={false}>{""}</FormHelperText>
+                            </FormControl>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col style={{ padding: '5px' }}>
                             {
                                 connected ?
                                     <Button variant="contained" color="secondary" onClick={disconnect}>
@@ -175,48 +206,94 @@ const Control = () => {
                                         Connect
                                     </Button>
                             }
-                        </Row>
-                    </Container>
-                </div>
-            </div>
+                        </Col>
+                    </Row>
+
+                    <hr />
+
+                    <Row>
+                        <Col style={{ padding: '5px' }}>
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="topic_name" variant="outlined" error={false}>Topic Name:</InputLabel>
+                                <OutlinedInput
+                                    id="topic_name"
+                                    type="text"
+                                    name="topic_name"
+                                    label="Topic Name"
+                                    error={false}
+                                    aria-describedby="my-helper-text-topic_name"
+                                    value={topicName === null ? '' : topicName}
+                                    onChange={(e) => setTopicName(e.target.value)}
+                                />
+                                <FormHelperText id="my-helper-text-topic_name" error={false}>{""}</FormHelperText>
+                            </FormControl>
+                        </Col>
+                    </Row>
+                </Container>
+            </Row>
 
             <hr />
 
-            <div className="row">
-                <div className="col-md-12 text-center">
-                    <h5>Commands</h5>
-                </div>
+            <Row>
+                <Container>
+                    <Row>
+                        <Col md={12} className="text-center">
+                            <h5>
+                                Commands
+                            </h5>
+                        </Col>
+                    </Row>
 
-                <div className="col-md-12 text-center">
-                    <Button variant="contained" color="primary" onClick={forward} disabled={!connected}>
-                        Go forward
-                    </Button>
-                    <br />
-                </div>
+                    <Row>
+                        <Col md={12} className="text-center">
+                            <Container>
+                                <Button variant="contained" color="primary" onClick={forward} disabled={!connected}>
+                                    Go forward
+                                </Button>
+                            </Container>
+                            <br />
+                        </Col>
+                    </Row>
 
-                <div className="col-md-4 text-center">
-                    <Button variant="contained" color="primary" onClick={turnleft} disabled={!connected}>
-                        Turn left
-                    </Button>
-                </div>
-                <div className="col-md-4 text-center">
-                    <Button variant="contained" color="secondary" onClick={stop} disabled={!connected}>
-                        Stop
-                    </Button>
-                    <br />
-                </div>
-                <div className="col-md-4 text-center">
-                    <Button variant="contained" color="primary" onClick={turnright} disabled={!connected}>
-                        Turn right
-                    </Button>
-                </div>
+                    <Row>
+                        <Col md={4} className="text-center">
+                            <Container>
+                                <Button variant="contained" color="primary" onClick={turnleft} disabled={!connected}>
+                                    Turn left
+                                </Button>
+                            </Container>
+                        </Col>
 
-                <div className="col-md-12 text-center">
-                    <Button variant="contained" color="primary" onClick={backward} disabled={!connected}>
-                        Go backward
-                    </Button>
-                </div>
-            </div>
+                        <Col md={4} className="text-center">
+                            <Container>
+                                <Button variant="contained" color="secondary" onClick={stop} disabled={!connected}>
+                                    Stop
+                                </Button>
+                            </Container>
+                            <br />
+                        </Col>
+
+                        <Col md={4} className="text-center">
+                            <Container>
+                                <Button variant="contained" color="primary" onClick={turnright} disabled={!connected}>
+                                    Turn right
+                                </Button>
+                            </Container>
+                        </Col>
+                    </Row>
+
+
+                    <Row>
+                        <Col md={12} className="text-center">
+                            <Container>
+                                <Button variant="contained" color="primary" onClick={backward} disabled={!connected}>
+                                    Go backward
+                                </Button>
+                            </Container>
+                        </Col>
+                    </Row>
+                </Container>
+            </Row>
         </Jumbotron>
     );
 }
