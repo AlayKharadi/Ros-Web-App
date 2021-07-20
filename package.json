@@ -16,6 +16,7 @@
     "react-scripts": "4.0.3",
     "redux": "^4.1.0",
     "roslib": "^1.1.0",
+    "vis-network": "^9.0.4",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
