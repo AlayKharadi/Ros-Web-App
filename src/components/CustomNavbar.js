@@ -9,7 +9,7 @@ const CustomNavbar = () => {
         { id: 0, path: '/Home', name: 'Home' },
         { id: 1, path: '/Control', name: 'Control' },
         { id: 2, path: '/Logs', name: 'Logs' }
-    ]
+    ];
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">

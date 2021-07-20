@@ -55,7 +55,7 @@ export default function reducer(state, action) {
                 ...state,
                 topic: new ROSLIB.Topic({
                     ros: state.ros,
-                    name: '/cmd_vel',
+                    name: action.payload.topicName,
                     messageType: 'geometry_msgs/Twist'
                 })
             };
