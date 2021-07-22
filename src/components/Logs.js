@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
-import { Jumbotron } from 'react-bootstrap';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 const Logs = () => {
     let logs = useSelector(state => state.logs);
     
     return (
-        <Jumbotron style={{ marginBottom: '0px' }}>
-            <h3>Log messages</h3>
+        <div className="container" style={{ marginBottom: '0px' }}>
+            <h3>Log messages:</h3>
             <div>
                 <ul>
                     {
@@ -45,7 +44,7 @@ const Logs = () => {
                     }
                 </ul>
             </div>
-        </Jumbotron>
+        </div>
     );
 }
 

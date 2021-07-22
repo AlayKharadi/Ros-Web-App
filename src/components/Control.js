@@ -3,13 +3,13 @@ import * as action_type from "../storage/actiontype";
 import ROSLIB from 'roslib';
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { Button, Container, FormControl, InputLabel, OutlinedInput, FormHelperText } from '@material-ui/core';
-import { Col, Jumbotron, Row } from 'react-bootstrap';
+import { Button, Container, TextField } from '@material-ui/core';
+import { Col, Row } from 'react-bootstrap';
 
 const Control = () => {
     let connected = useSelector(state => state.connected);
     const [ws, setWS] = useState(userStore.getState().ws_address);
-    const [topicName, setTopicName] = useState('');
+    const [topicName, setTopicName] = useState(userStore.getState().topic === null ? "" : userStore.getState().topic.name);
 
     useEffect(() => {
         // link for the web
@@ -156,7 +156,7 @@ const Control = () => {
 
     return (
 
-        <Jumbotron style={{ marginBottom: '0px' }}>
+        <div className="container" style={{ marginBottom: '0px' }}>
             <Row>
                 <Container>
                     <h3>Connection Status:</h3>
@@ -171,38 +171,34 @@ const Control = () => {
                                 Not connected
                             </p>
                     }
+                    <hr />
                 </Container>
-                <hr />
 
                 <Container>
                     <Row>
-                        <Col style={{ padding: '5px' }}>
-                            <FormControl fullWidth>
-                                <InputLabel htmlFor="ws_address" variant="outlined" error={false}>Websocket server address:</InputLabel>
-                                <OutlinedInput
-                                    id="ws_address"
-                                    type="text"
-                                    name="ws_address"
-                                    label="Websocket server address"
-                                    error={false}
-                                    aria-describedby="my-helper-text-user"
-                                    value={ws === null ? '' : ws}
-                                    onChange={(e) => setWS(e.target.value)}
-                                />
-                                <FormHelperText id="my-helper-text-ws_address" error={false}>{""}</FormHelperText>
-                            </FormControl>
+                        <Col>
+                            <TextField
+                                id="ws_address"
+                                type="text"
+                                name="ws_address"
+                                variant="filled"
+                                label="Websocket server address:"
+                                value={ws === null ? '' : ws}
+                                onChange={(e) => setWS(e.target.value)}
+                                fullWidth
+                            />
                         </Col>
                     </Row>
 
                     <Row>
-                        <Col style={{ padding: '5px' }}>
+                        <Col>
                             {
                                 connected ?
-                                    <Button variant="contained" color="secondary" onClick={disconnect}>
+                                    <Button variant="contained" color="secondary" onClick={disconnect} style={{marginTop: "10px"}}>
                                         Disconnect
                                     </Button>
                                     :
-                                    <Button variant="contained" color="primary" onClick={connect}>
+                                    <Button variant="contained" color="primary" onClick={connect} style={{ marginTop: "10px" }}>
                                         Connect
                                     </Button>
                             }
@@ -212,21 +208,17 @@ const Control = () => {
                     <hr />
 
                     <Row>
-                        <Col style={{ padding: '5px' }}>
-                            <FormControl fullWidth>
-                                <InputLabel htmlFor="topic_name" variant="outlined" error={false}>Topic Name:</InputLabel>
-                                <OutlinedInput
-                                    id="topic_name"
-                                    type="text"
-                                    name="topic_name"
-                                    label="Topic Name"
-                                    error={false}
-                                    aria-describedby="my-helper-text-topic_name"
-                                    value={topicName === null ? '' : topicName}
-                                    onChange={(e) => setTopicName(e.target.value)}
-                                />
-                                <FormHelperText id="my-helper-text-topic_name" error={false}>{""}</FormHelperText>
-                            </FormControl>
+                        <Col>
+                            <TextField
+                                id="topic_name"
+                                type="text"
+                                name="topic_name"
+                                variant="filled"
+                                label="Topic Name:"
+                                value={topicName === null ? '' : topicName}
+                                onChange={(e) => setTopicName(e.target.value)}
+                                fullWidth
+                            />
                         </Col>
                     </Row>
                 </Container>
@@ -294,7 +286,7 @@ const Control = () => {
                     </Row>
                 </Container>
             </Row>
-        </Jumbotron>
+        </div>
     );
 }
 
