@@ -3,7 +3,7 @@ import * as action_type from "../storage/actiontype";
 import ROSLIB from 'roslib';
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import { Button, Container, TextField } from '@material-ui/core';
+import { Button, Container, TextField } from '@mui/material';
 import { Col, Row } from 'react-bootstrap';
 
 const Control = () => {
@@ -155,8 +155,7 @@ const Control = () => {
     }
 
     return (
-
-        <div className="container" style={{ marginBottom: '0px' }}>
+        <Container style={{ marginBottom: '0px', padding: '2em' }}>
             <Row>
                 <Container>
                     <h3>Connection Status:</h3>
@@ -194,7 +193,7 @@ const Control = () => {
                         <Col>
                             {
                                 connected ?
-                                    <Button variant="contained" color="secondary" onClick={disconnect} style={{marginTop: "10px"}}>
+                                    <Button variant="contained" color="secondary" onClick={disconnect} style={{ marginTop: "10px" }}>
                                         Disconnect
                                     </Button>
                                     :
@@ -286,7 +285,7 @@ const Control = () => {
                     </Row>
                 </Container>
             </Row>
-        </div>
+        </Container>
     );
 }
 

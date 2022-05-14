@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from '@mui/material';
+import { Container } from "react-bootstrap";
 
 const Logs = () => {
     let logs = useSelector(state => state.logs);
     
     return (
-        <div className="container" style={{ marginBottom: '0px' }}>
+        <Container style={{ marginBottom: '0px', padding: '2em' }}>
             <h3>Log messages:</h3>
             <div>
                 <ul>
@@ -44,7 +45,7 @@ const Logs = () => {
                     }
                 </ul>
             </div>
-        </div>
+        </Container>
     );
 }
 
