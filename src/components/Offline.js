@@ -1,6 +1,8 @@
+import { Container } from "react-bootstrap";
+
 const Offline = () => {
     return (
-        <div>
+        <Container>
             <h3>To connect in Linux ROS Enviornment</h3>
             <hr />
             <ul>
@@ -33,7 +35,7 @@ const Offline = () => {
                 </li>
                 
             </ul>
-        </div>
+        </Container>
     );
 }
 

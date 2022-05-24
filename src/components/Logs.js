@@ -1,12 +1,13 @@
+import style from '../styles/style.module.css';
 import { useSelector } from "react-redux";
 import { Alert, AlertTitle } from '@mui/material';
 import { Container } from "react-bootstrap";
 
 const Logs = () => {
-    let logs = useSelector(state => state.logs);
+    const logs = useSelector(state => state.logs);
     
     return (
-        <Container style={{ marginBottom: '0px', padding: '2em' }}>
+        <Container className={style.container}>
             <h3>Log messages:</h3>
             <div>
                 <ul>

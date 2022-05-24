@@ -1,6 +1,8 @@
+import { Container } from "react-bootstrap";
+
 const Online = () => {
     return (
-        <div>
+        <Container>
             <h3>To connect in Online Mode</h3>
             <hr />
             <ul>
@@ -41,7 +43,7 @@ const Online = () => {
                     <p>You can see your robot moving in the constructsim's simulator.</p>
                 </li>
             </ul>
-        </div>
+        </Container>
     );
 }
 

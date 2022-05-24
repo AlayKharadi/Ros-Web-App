@@ -1,24 +1,34 @@
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import CustomNavbar from "./components/CustomNavbar";
-const Home = lazy(() => import('./components/Home'));
-const Control = lazy(() => import('./components/Control'));
-const Logs = lazy(() => import('./components/Logs'))
+import { $navlinks } from './storage/navlinks';
 
 const App = () => {
     return (
         <BrowserRouter>
-            <CustomNavbar></CustomNavbar>
-            <Suspense fallback={<Spinner />}>
-                <Routes>
-                    <Route exact path='/Home' element={<Home />} />
-                    <Route exact path='/Control' element={<Control />} />
-                    <Route exact path='/Logs' element={<Logs />} />
-                    <Route exact path='/' element={<Navigate replace to="/Home" />} />
-                </Routes>
-            </Suspense>
-        </BrowserRouter>
+            <CustomNavbar />
+            <Routes>
+                {
+                    $navlinks.map((navlink, index) => {
+                        return (
+                            <Route
+                                key={navlink.id}
+                                exact={true}
+                                path={navlink.path}
+                                element={
+                                    <Suspense fallback={<Spinner />}>
+                                        {navlink.element}
+                                    </Suspense>
+                                }
+                            />
+                        )
+                    })
+                }
+                <Route exact path='/' element={<Navigate replace={true} to={`/${$navlinks[0].path}`} />} />
+                <Route path='*' element={<Navigate replace={true} to={'/'} />} />
+            </Routes>
+        </BrowserRouter >
     );
 }
 

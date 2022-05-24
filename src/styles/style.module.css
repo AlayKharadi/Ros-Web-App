@@ -1,0 +1,32 @@
+.container {
+    padding: 2em;
+    margin-bottom: 0;
+}
+
+.home {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.home > img {
+    max-width: 100%;
+}
+
+@media (min-width: 50em) {
+    .home {
+        grid-template-columns: fit-content auto;
+    }
+
+    .home > img {
+        max-width: 20em;
+    }
+    
+    .home > div {
+        padding: 1em;
+    }
+    
+    .home > div:last-child {
+        grid-column: span 2;
+    }
+}
