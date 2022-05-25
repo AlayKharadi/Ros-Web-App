@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import CustomNavbar from "./components/CustomNavbar";
-import { $navlinks } from './storage/navlinks';
+import { $navlinks } from './redux/navlinks';
 
 const App = () => {
     return (

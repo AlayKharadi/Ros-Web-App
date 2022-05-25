@@ -1,6 +1,6 @@
 import style from '../styles/style.module.css';
-import { userStore } from '../storage/store';
-import * as action_type from "../storage/actiontype";
+import { userStore } from '../redux/store';
+import * as action_type from "../redux/actiontype";
 import ROSLIB from 'roslib';
 import { useSelector } from "react-redux";
 import { useState } from 'react';

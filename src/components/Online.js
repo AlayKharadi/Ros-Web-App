@@ -13,28 +13,28 @@ const Online = () => {
                     <p>create an account.</p>
                 </li>
                 <li>
-                    <p>Search Project "<code>Developing Web Interfaces for ROS</code>" in the searchbar.</p>
+                    <p>Search Project "<code>Developing Web Interfaces for ROS</code>" in the search bar.</p>
                 </li>
                 <li>
-                    <p>Open the project you will see termial, Documentation, IDE and simulator.</p>
-                    <p>we will use termial and simulator.</p>
+                    <p>Open the project you will see terminal, Documentation, IDE and simulator.</p>
+                    <p>We will use only the terminal and simulator.</p>
                 </li>
                 <li>
                     <p>Run ROSBridge Websocket Server via terminal</p>
                     <p>Command : <code>roslaunch course_web_dev_ros web.launch</code></p>
                 </li>
                 <li>
-                    <p>Run the below command to get server link.</p>
+                    <p>Run the below command to get server the link.</p>
                     <p>Command : <code>rosbridge_address</code></p>
                 </li>
                 <li>
                     <p>copy the link and paste it in our website's control section's websocket server address field.</p>
                 </li>
                 <li>
-                    <p>controller will be enabled as soon as you click <code>connect</code> button.</p>
+                    <p>controller will be enabled as soon as you click the <code>connect</code> button.</p>
                 </li>
                 <li>
-                    <p>Put <code>/cmd_vel</code> in the Topic Name to use controller.</p>
+                    <p>Put <code>/cmd_vel</code> in the Topic Name to use the controller.</p>
                 </li>
                 <li>
                     <p>You are good to go.</p>

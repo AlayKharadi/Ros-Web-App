@@ -7,7 +7,6 @@ const Online = lazy(() => import('./Online'));
 
 
 const Home = () => {
-	console.log("home")
 	const [key, setKey] = useState('offline');
 
 	return (

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { $navlinks } from '../storage/navlinks.js';
+import { $navlinks } from '../redux/navlinks.js';
 
 const CustomNavbar = () => {
 
